@@ -1,3 +1,4 @@
+from django.http import HttpResponse, JsonResponse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -15,6 +16,7 @@ def getDescription(request, type, version):
             description.pop('_state')
             description.pop('id')
             description['b_text'] = [text.strip() for text in description['b_text'].split('\n')]
-            return Response(description)
+            return JsonResponse(description, json_dumps_params={'ensure_ascii': False})
 
-    return Response({"error": "not founded!"}, status=status.HTTP_404_NOT_FOUND)
+    return JsonResponse({"error": "not founded!"}, status=status.HTTP_404_NOT_FOUND,
+                        json_dumps_params={'ensure_ascii': False})
